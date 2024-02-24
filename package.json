@@ -1,0 +1,17 @@
+{
+  "name": "bookstore-express",
+  "version": "1.0.0",
+  "description": "Uma livraria online feita em Express",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Vanessa Nascimento",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
