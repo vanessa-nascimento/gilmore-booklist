@@ -1,21 +1,22 @@
 import express from "express";
+import connectDatabase from "./config/dbConnect.js";
+import book from "./models/Book.js";
+
+const connection = await connectDatabase();
+
+connection.on("error", (erro) => {
+    console.error("Erro de conexão:", erro);
+});
+  
+connection.once("open", () => {
+    console.log("Conexão com o banco feita com sucesso!");
+})
 
 const app = express();
 app.use(express.json());
 
-const livros = [
-    {
-        id: 1,
-        titulo: "O Senhor dos Anéis"
-    },
-    {
-        id: 2,
-        titulo: "O Hobbit"
-    }
-];
-
 function getBook(id) {
-    return livros.findIndex(livro => {
+    return books.findIndex(livro => {
         return livro.id === Number(id);
     })
 }
@@ -24,8 +25,9 @@ app.get('/', (req, res) => {
     res.status(200).send("Curso de Node.js");
 });
 
-app.get('/livros', (req, res) => {
-    res.status(200).json(livros);
+app.get('/livros', async (req, res) => {
+    const bookList = await book.find({})
+    res.status(200).json(bookList);
 });
 
 app.get('/livros/:id', (req, res) => {
@@ -50,7 +52,5 @@ app.delete('/livros/:id', (req, res) => {
     livros.splice(index, 1);
     res.status(200).send("Livro removido com sucesso!");
 });
-
-//mongodb+srv://vanascimento:Van@2024@cluster0.eyuqtre.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 
 export default app;
